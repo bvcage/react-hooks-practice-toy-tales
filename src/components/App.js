@@ -29,13 +29,13 @@ function App() {
     .then(() => setToysAry(toysAry.filter(toy => toy.id !== toyId)));
   }
 
-  function handlePatchToy (patchToy) {
-    fetch(`http://localhost:3001/toys/${patchToy.id}`, {
+  function handlePatchToy (toyId, patchObj) {
+    fetch(`http://localhost:3001/toys/${toyId}`, {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json"
       },
-      body: JSON.stringify(patchToy)
+      body: JSON.stringify(patchObj)
     })
     .then(r => r.json())
     .then(patch => {

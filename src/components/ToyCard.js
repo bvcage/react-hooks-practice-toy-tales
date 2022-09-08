@@ -6,7 +6,7 @@ function ToyCard({ toy, donateToy, updateToy }) {
   function updateToyLikes () {
     const patchToy = toy;
     patchToy.likes += 1;
-    updateToy(patchToy);
+    updateToy(id, {likes: likes+1});
   }
 
   return (
