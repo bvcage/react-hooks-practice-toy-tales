@@ -29,6 +29,24 @@ function App() {
     .then(() => setToysAry(toysAry.filter(toy => toy.id !== toyId)));
   }
 
+  function handlePatchToy (patchToy) {
+    fetch(`http://localhost:3001/toys/${patchToy.id}`, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(patchToy)
+    })
+    .then(r => r.json())
+    .then(patch => {
+      const newAry = toysAry.map(toy => {
+        if (toy.id === patch.id) return patch;
+        else return toy;
+      })
+      setToysAry(newAry);
+    })
+  }
+
   function handleSubmitToy (newToy) {
     fetch(`http://localhost:3001/toys`, {
       method: "POST",
@@ -49,7 +67,11 @@ function App() {
       <div className="buttonContainer">
         <button onClick={handleClick}>Add a Toy</button>
       </div>
-      <ToyContainer toysAry={toysAry} donateToy={handleDonateToy} />
+      <ToyContainer
+        toysAry={toysAry}
+        donateToy={handleDonateToy}
+        updateToy={handlePatchToy}
+      />
     </>
   );
 }
