@@ -19,8 +19,17 @@ function App() {
     setShowForm((showForm) => !showForm);
   }
 
+  function handleDonateToy (toyId) {
+    fetch(`http://localhost:3001/toys/${toyId}`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+      }
+    })
+    .then(() => setToysAry(toysAry.filter(toy => toy.id !== toyId)));
+  }
+
   function handleSubmitToy (newToy) {
-    console.log('submit');
     fetch(`http://localhost:3001/toys`, {
       method: "POST",
       headers: {
@@ -30,6 +39,7 @@ function App() {
     })
     .then(r => r.json())
     .then(post => setToysAry([...toysAry, post]))
+    .then(setShowForm(false))
   }
 
   return (
@@ -39,7 +49,7 @@ function App() {
       <div className="buttonContainer">
         <button onClick={handleClick}>Add a Toy</button>
       </div>
-      <ToyContainer toysAry={toysAry} />
+      <ToyContainer toysAry={toysAry} donateToy={handleDonateToy} />
     </>
   );
 }
